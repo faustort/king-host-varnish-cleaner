@@ -9,7 +9,7 @@
  * Plugin Name:       King Host Varnish Cleaner
  * Plugin URI:        https://www.nw2web.com.br
  * Description:       This plugin try to clean Varnish Cache based on King Host documentation
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            Fausto Rodrigo Toloi
  * Author URI:        https://www.nw2web.com.br
  * License:           GPL-2.0+
@@ -26,7 +26,7 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Currently plugin version.
  */
-define( 'KING_HOST_VARNISH_CLEANER_VERSION', '1.0.0' );
+define( 'KING_HOST_VARNISH_CLEANER_VERSION', '1.0.1' );
 
 /**
  * This action is documented in includes/class-king-host-varnish-cleaner-activator.php
