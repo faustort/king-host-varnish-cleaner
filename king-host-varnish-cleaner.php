@@ -7,7 +7,7 @@
  *
  * @wordpress-plugin
  * Plugin Name:       King Host Varnish Cleaner
- * Plugin URI:        https://www.nw2web.com.br
+ * Plugin URI:        https://king-host-varnish-cleaner.nw2.com.br/
  * Description:       This plugin try to clean Varnish Cache based on King Host documentation
  * Version:           1.0.1
  * Author:            Fausto Rodrigo Toloi

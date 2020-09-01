@@ -1,9 +1,10 @@
 === King Host Varnish Cleaner ===
-Contributors: faustortoloi
+Contributors: zarausto
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=UUD6YHZDT2F3U&item_name=Buy+a+Coffee&currency_code=BRL&source=url
 Tags: king host, kinghost, varnish
 Requires at least: 3.0.1
 Tested up to: 3.4
+Requires PHP: 7.0
 Stable tag: 4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -38,6 +39,11 @@ You can find in this article: https://king.host/wiki/artigo/varnish-cache/
 You need to specify your API Key in  Settings -> King Host Varnish, find your API KEY in this article: https://king.host/wiki/artigo/varnish-cache/
 
 == Screenshots ==
+1. Menu added to Settings display
+
+== Translations ==
+* English - default
+* Brazillian Portuguese: disponível
 
 == Changelog ==
 = 1.0.1 =
@@ -47,6 +53,5 @@ You need to specify your API Key in  Settings -> King Host Varnish, find your AP
 * First Release 
 
 == Upgrade Notice ==
-
-== Arbitrary section ==
-
+= 1.0.1 =
+* Little Improvements on code
