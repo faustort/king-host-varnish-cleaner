@@ -20,6 +20,8 @@ Special thanks to:
 https://wppb.me/ (for the amazing boilerplate job)
 https://github.com/wplauncher/settings-page (for making create menu easier) 
 
+Use "a volonté": https://github.com/zarausto/king-host-varnish-cleaner
+
 _If, somehow, i'm infringing any King Host terms or policy please let me know._
 
 == Installation ==
