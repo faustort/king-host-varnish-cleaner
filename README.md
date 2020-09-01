@@ -30,17 +30,13 @@ You can find in this article: https://king.host/wiki/artigo/varnish-cache/
 You need to specify your API Key in  Settings -> King Host Varnish, find your API KEY in this article: https://king.host/wiki/artigo/varnish-cache/
 
 ## Buy me a coffee =)
-If somehow I've helped you buy me a coffee or a beer, or just donate for feeling good.
+If somehow I've helped you buy me a coffee or a beer, or just donate for feeeling good.
 
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-<input type="hidden" name="cmd" value="_donations" />
-<input type="hidden" name="business" value="UUD6YHZDT2F3U" />
-<input type="hidden" name="item_name" value="Buy a Coffee" />
-<input type="hidden" name="currency_code" value="BRL" />
-<input type="image" src="https://www.paypalobjects.com/pt_BR/BR/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Faça doações com o botão do PayPal" />
-<img alt="" border="0" src="https://www.paypal.com/pt_BR/i/scr/pixel.gif" width="1" height="1" />
-</form>
 
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=UUD6YHZDT2F3U&item_name=Buy+a+Coffee&currency_code=BRL&source=url">
+<img alt="" border="0" src="https://media.giphy.com/media/27Ju5pmIEgv04/giphy.gif" width="150"/><br>
+<img alt="" border="0" src="https://www.paypalobjects.com/pt_BR/BR/i/btn/btn_donateCC_LG.gif" /><br>
+</a>
 
 #### Changelog 
 #####  1.0.1 
