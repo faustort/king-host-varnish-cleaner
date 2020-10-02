@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: King Host Varnish Cleaner\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-01 02:38+0000\n"
+"POT-Creation-Date: 2020-10-02 08:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -13,64 +13,78 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.4.3; wp-5.5"
+"X-Loco-Version: 2.4.3; wp-5.5.1"
 
-#: admin/partials/king-host-varnish-cleaner-clear-cache.php:17
-msgid "Clear cache"
-msgstr ""
-
-#: admin/class-king-host-varnish-cleaner-admin.php:194
-msgid "Clear cache now"
-msgstr ""
-
-#: admin/class-king-host-varnish-cleaner-admin.php:244
+#: admin/class-king-host-varnish-cleaner-admin.php:121
+#: admin/class-king-host-varnish-cleaner-admin.php:124
 msgid "Clear Varnish"
 msgstr ""
 
-#: admin/class-king-host-varnish-cleaner-admin.php:69
-#: admin/class-king-host-varnish-cleaner-admin.php:70
-msgid "Clear Varnish Cache"
+#: admin/class-king-host-varnish-cleaner-admin.php:146
+msgid "Your API key is not valid"
 msgstr ""
 
-#. Author of the plugin
-msgid "Fausto Rodrigo Toloi"
-msgstr ""
-
-#. URI of the plugin
-#. Author URI of the plugin
-msgid "https://www.nw2web.com.br"
-msgstr ""
-
-#: admin/class-king-host-varnish-cleaner-admin.php:167
+#: admin/class-king-host-varnish-cleaner-admin.php:159
+#: admin/class-king-host-varnish-cleaner-admin.php:169
 msgid "King Host API Key"
 msgstr ""
 
-#: admin/class-king-host-varnish-cleaner-admin.php:62
-msgid "King Host Varnish"
+#: admin/class-king-host-varnish-cleaner-admin.php:161
+msgid "Enter your King Host API Key"
 msgstr ""
 
-#. Name of the plugin
-msgid "King Host Varnish Cleaner"
-msgstr ""
-
-#: admin/class-king-host-varnish-cleaner-admin.php:61
+#: admin/class-king-host-varnish-cleaner-admin.php:193
 msgid "King Host Varnish Settings"
+msgstr ""
+
+#: admin/class-king-host-varnish-cleaner-admin.php:194
+msgid "K.H. Varnish config."
+msgstr ""
+
+#: admin/class-king-host-varnish-cleaner-admin.php:200
+msgid "Clear Varnish Cache"
+msgstr ""
+
+#: admin/class-king-host-varnish-cleaner-admin.php:201
+msgid "K.H. Clear Varnish."
+msgstr ""
+
+#: admin/class-king-host-varnish-cleaner-admin.php:240
+msgid "Settings"
+msgstr ""
+
+#: admin/partials/king-host-varnish-cleaner-clear-cache.php:22
+msgid "API Key"
+msgstr ""
+
+#: admin/partials/king-host-varnish-cleaner-clear-cache.php:31
+msgid "Wordpress is having difficult to access the K.H. Server"
+msgstr ""
+
+#: admin/partials/king-host-varnish-cleaner-clear-cache.php:38
+msgid "Something went wrong with server, this is the message returned:"
 msgstr ""
 
 #: admin/partials/king-host-varnish-cleaner-admin-display.php:17
 msgid "Settings Page Settings"
 msgstr ""
 
-#: admin/class-king-host-varnish-cleaner-admin.php:121
-msgid ""
-"There was an error adding this setting. Please try again.  If this persists, "
-"shoot us an email."
+#. Name of the plugin
+msgid "King Host Varnish Cleaner"
 msgstr ""
 
 #. Description of the plugin
-msgid "This plugin try to clean Varnish Cache based on King Host documentation"
+msgid "This plugin try to clear Varnish Cache based on King Host documentation"
 msgstr ""
 
-#: admin/class-king-host-varnish-cleaner-admin.php:184
-msgid "You need to specify the King Host Varnish API."
+#. URI of the plugin
+msgid "https://king-host-varnish-cleaner.nw2.com.br/"
+msgstr ""
+
+#. Author of the plugin
+msgid "Fausto Rodrigo Toloi"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://www.nw2web.com.br"
 msgstr ""

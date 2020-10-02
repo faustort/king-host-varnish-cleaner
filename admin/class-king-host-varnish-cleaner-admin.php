@@ -42,6 +42,21 @@ class King_Host_Varnish_Cleaner_Admin
     private $version;
 
     /**
+     * The URL to clear Varnish Cache on King Host
+     * based on documentation not public provided
+     *
+     * @var string
+     */
+    public $king_host_url_api = 'https://painel.kinghost.com.br/conector/varnish.php';
+
+    /**
+     * Undocumented variable
+     *
+     * @var string
+     */
+    public $path_relative;
+
+    /**
      * Initialize the class and set its properties.
      *
      * @since    1.0.0
@@ -54,195 +69,185 @@ class King_Host_Varnish_Cleaner_Admin
         $this->version = $version;
     }
 
-    public function addPluginAdminMenu()
-    {
-        add_submenu_page(
-            'options-general.php',
-            __('King Host Varnish Settings', 'king-host-varnish-cleaner'),
-            __('King Host Varnish', 'king-host-varnish-cleaner'),
-            'manage_options',
-            $this->plugin_name . '-settings',
-            array($this, 'displayPluginAdminSettings')
-        );
-        add_submenu_page(
-            $this->plugin_name . '-settings',
-            __('Clear Varnish Cache', 'king-host-varnish-cleaner'),
-            __('Clear Varnish Cache', 'king-host-varnish-cleaner'),
-            'manage_options',
-            $this->plugin_name . '-clear',
-            array($this, 'displayClearVarnishCachePage')
-        );
-    }
-    /**
-     * Undocumented function
-     *
-     * @return void
-     */
-    public function displayPluginAdminDashboard()
-    {
-        require_once 'partials/' . $this->plugin_name . '-admin-display.php';
-    }
 
     /**
      * Undocumented function
      *
      * @return void
      */
-    public function displayClearVarnishCachePage()
+    public function khvc_display_clear_varnish()
     {
         include(plugin_dir_path(__FILE__) . 'partials/king-host-varnish-cleaner-clear-cache.php');
     }
 
+
+    /**
+     * Return only the parameter as relative path needed for
+     * clear cache on King Host. Based on documentation.
+     */
+    public function get_path_to_clean($link_to_clear = false)
+    {
+        if (!$link_to_clear) {
+            $this->path_to_clear = "/*";
+            return $this->path_to_clear;
+        }
+
+        // Avoid wrong cleaning process on subdirectories wp installations
+        $url_server =  (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+        $site_url = get_site_url();
+        $site_root = str_replace($url_server, "", $site_url);
+        $path_relative = str_replace($site_url, "", $link_to_clear);
+
+        $this->path_to_clear = $site_root . $path_relative;
+        return  $this->path_to_clear;
+    }
+
+
     /**
      * Undocumented function
      *
+     * @param [type] $admin_bar
      * @return void
      */
-    public function displayPluginAdminSettings()
+    public function khvc_register_toolbar_item($wp_admin_bar)
     {
-
-        if (isset($_GET['error_message'])) {
-            add_action('admin_notices', array($this, 'settingsPageSettingsMessages'));
-            do_action('admin_notices', $_GET['error_message']);
-        }
-        include(plugin_dir_path(__FILE__) . 'partials/king-host-varnish-cleaner-admin-display.php');
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @param [type] $error_message
-     * @return void
-     */
-    public function settingsPageSettingsMessages($error_message)
-    {
-        switch ($error_message) {
-            case '1':
-                $message = __('There was an error adding this setting. Please try again.  If this persists, shoot us an email.', 'king-host-varnish-cleaner');
-                $err_code = esc_attr('settings_page_king_host_api_key');
-                $setting_field = 'settings_page_king_host_api_key';
-                break;
-        }
-        $type = 'error';
-        add_settings_error(
-            $setting_field,
-            $err_code,
-            $message,
-            $type
-        );
-    }
-
-    public function registerAndBuildFields()
-    {
-        /**
-         * First, we add_settings_section. This is necessary since all future settings must belong to one.
-         * Second, add_settings_field
-         * Third, register_setting
-         */
-        add_settings_section(
-            // ID used to identify this section and with which to register options
-            'settings_page_general_section',
-            // Title to be displayed on the administration page
-            '',
-            // Callback used to render the description of the section
-            array($this, 'settings_page_display_general_account'),
-            // Page on which to add this section of options
-            'settings_page_general_settings'
-        );
-        unset($args);
-
-        $args = array(
-            'type'                  => 'input',
-            'subtype'               => 'text',
-            'id'                    => 'settings_page_king_host_api_key',
-            'name'                  => 'settings_page_king_host_api_key',
-            'required'              => 'true',
-            'get_options_list'      => '',
-            'value_type'            => 'normal',
-            'wp_data'               => 'option'
-        );
-
-        add_settings_field(
-            'settings_page_king_host_api_key',
-            __('King Host API Key', 'king-host-varnish-cleaner'),
-            array($this, 'settings_page_render_settings_field'),
-            'settings_page_general_settings',
-            'settings_page_general_section',
-            $args
-        );
-
-        register_setting(
-            'settings_page_general_settings',
-            'settings_page_king_host_api_key'
-        );
-    }
-    public function settings_page_display_general_account()
-    {
-
-        echo sprintf(
-            '<div><p>%s</p><p>%s</p></div>',
-            __('You need to specify the King Host Varnish API.', 'king-host-varnish-cleaner'),
-            __("If you don't know yours API key you can ") .
-                sprintf(
-                    "<a target='_blank' href='https://king.host/wiki/artigo/varnish-cache/'>%s.</a>",
-                    __("find more about here")
-                )
-        );
-        
-        $url_clear_cache = admin_url('admin.php?page=' . $this->plugin_name . '-clear');
-        
-        echo sprintf('<a class="button button-secondary" href="' . $url_clear_cache . '">%s</a>', __("Clear cache now", 'king-host-varnish-cleaner'));
-        echo "<hr>";
-    }
-    public function settings_page_render_settings_field($args)
-    {
-        if ($args['wp_data'] == 'option') {
-            $wp_data_value = get_option($args['name']);
-        } elseif ($args['wp_data'] == 'post_meta') {
-            $wp_data_value = get_post_meta($args['post_id'], $args['name'], true);
-        }
-
-        switch ($args['type']) {
-
-            case 'input':
-                $value = ($args['value_type'] == 'serialized') ? serialize($wp_data_value) : $wp_data_value;
-                if ($args['subtype'] != 'checkbox') {
-                    $prependStart = (isset($args['prepend_value'])) ? '<div class="input-prepend"> <span class="add-on">' . $args['prepend_value'] . '</span>' : '';
-                    $prependEnd = (isset($args['prepend_value'])) ? '</div>' : '';
-                    $step = (isset($args['step'])) ? 'step="' . $args['step'] . '"' : '';
-                    $min = (isset($args['min'])) ? 'min="' . $args['min'] . '"' : '';
-                    $max = (isset($args['max'])) ? 'max="' . $args['max'] . '"' : '';
-                    if (isset($args['disabled'])) {
-                        // hide the actual input bc if it was just a disabled input the info saved in the database would be wrong - bc it would pass empty values and wipe the actual information
-                        echo $prependStart . '<input type="' . $args['subtype'] . '" id="' . $args['id'] . '_disabled" ' . $step . ' ' . $max . ' ' . $min . ' name="' . $args['name'] . '_disabled" size="40" disabled value="' . esc_attr($value) . '" /><input type="hidden" id="' . $args['id'] . '" ' . $step . ' ' . $max . ' ' . $min . ' name="' . $args['name'] . '" size="40" value="' . esc_attr($value) . '" />' . $prependEnd;
-                    } else {
-                        echo $prependStart . '<input type="' . $args['subtype'] . '" id="' . $args['id'] . '" "' . $args['required'] . '" ' . $step . ' ' . $max . ' ' . $min . ' name="' . $args['name'] . '" size="40" value="' . esc_attr($value) . '" />' . $prependEnd;
-                    }
-                } else {
-                    $checked = ($value) ? 'checked' : '';
-                    echo '<input type="' . $args['subtype'] . '" id="' . $args['id'] . '" "' . $args['required'] . '" name="' . $args['name'] . '" size="40" value="1" ' . $checked . ' />';
-                }
-                break;
-            default:
-                # code...
-                break;
-        }
-    }
-
-    function add_toolbar_items($admin_bar)
-    {
-        if (!current_user_can('manage_options')) {
+        if (!current_user_can('edit_posts') && !is_admin()) {
             return;
         }
-        $admin_bar->add_menu(array(
-            'id'    => 'menu-id',
+        $wp_admin_bar->add_menu(array(
+            'id' => $this->plugin_name . '_toolbar_clear',
             'parent' => null,
             'group'  => null,
-            'title' => 'Clear Varnish', //you can use img tag with image link. it will show the image icon Instead of the title.
-            'href'  => admin_url('admin.php?page=' . $this->plugin_name . '-clear'),
+            'title' => __('Clear Varnish', 'king-host-varnish-cleaner'),
+            'href'  => menu_page_url($this->plugin_name . '-clear', false),
             'meta' => [
-                'title' => __('Clear Varnish', 'king-host-varnish-cleaner'), //This title will show on hover
+                'title' => __('Clear Varnish', 'king-host-varnish-cleaner'),
             ]
         ));
+    }
+
+    /**
+     * Register Wordpress fields for plugin
+     *
+     * @return void
+     */
+    public function khvc_register_settings()
+    {
+        // Register the API Key variable
+        register_setting(
+            $this->plugin_name . '_group_config',
+            'king_host_varnish_api_key',
+            array(
+                'sanitize_callback' => function ($value) {
+                    if (!preg_match('/^[a-zA-Z0-9]{30,32}$/', $value)) {
+                        add_settings_error(
+                            'king_host_varnish_api_key',
+                            esc_attr('king_host_varnish_api_key_erro'),
+                            __('Your API key is not valid', 'king-host-varnish-cleaner'),
+                            'error'
+                        );
+                        return get_option('king_host_varnish_api_key');
+                    }
+                    return $value;
+                },
+            )
+        );
+
+        // Create section for edit API Section
+        add_settings_section(
+            $this->plugin_name . '_section',
+            __('King Host API Key', 'king-host-varnish-cleaner'),
+            function ($args) {
+                _e('Enter your King Host API Key', 'king-host-varnish-cleaner');
+            },
+            $this->plugin_name . '_group_config'
+        );
+
+        // Add API field
+        add_settings_field(
+            'king_host_varnish_api_key',
+            __('King Host API Key', 'king-host-varnish-cleaner'),
+            function ($args) {
+                $kgv_api_key = get_option('king_host_varnish_api_key');
+?>
+            <input type="text" id="<?php echo esc_attr($args['label_for']); ?>" name="king_host_varnish_api_key" value="<?php echo esc_attr($kgv_api_key); ?>">
+        <?php
+            },
+            $this->plugin_name . '_group_config',
+            $this->plugin_name . '_section',
+            [
+                'label_for' => 'king_host_varnish_api_key_id',
+                'class'     => 'king_host_varnish-class',
+            ]
+        );
+    }
+
+    /**
+     * Register admin menus
+     *
+     * @return void
+     */
+    public function khvc_register_admin_menu()
+    {
+        add_options_page(
+            __('King Host Varnish Settings', 'king-host-varnish-cleaner'),
+            __('K.H. Varnish config.', 'king-host-varnish-cleaner'),
+            'manage_options',
+            $this->plugin_name . '-settings',
+            array($this, 'khvc_display_settings_html')
+        );
+        add_options_page(
+            __('Clear Varnish Cache', 'king-host-varnish-cleaner'),
+            __('K.H. Clear Varnish.', 'king-host-varnish-cleaner'),
+            'manage_options',
+            $this->plugin_name . '-clear',
+            array($this, 'khvc_display_clear_varnish')
+        );
+
+        // Fix call menu_page_url too soon
+        add_action('admin_bar_menu', array($this, 'khvc_register_toolbar_item'), 80);
+    }
+    /**
+     * Display the plugin settings page
+     *
+     * @return void
+     */
+    public function khvc_display_settings_html()
+    {
+        ?>
+        <div class="wrap">
+            <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
+            <form action="options.php" method="post">
+                <?php
+                settings_fields($this->plugin_name . '_group_config');
+                do_settings_sections($this->plugin_name . '_group_config');
+                submit_button();
+                ?>
+            </form>
+        </div>
+<?php
+    }
+    /**
+     * Create plugin action link to settings page
+     *
+     * @param [type] $links
+     * @return void
+     */
+    public function khvc_create_plugin_action_link($links)
+    {
+        if (is_admin()) {
+            // add settings button
+            $settings_link = menu_page_url($this->plugin_name . '-settings', false);
+            $settings_link_complete = '<a href="' . $settings_link . '">' . __('Settings', 'king-host-varnish-cleaner') . '</a>';
+
+            array_unshift($links, $settings_link_complete);
+
+            // add clear cache button
+            $clear_link = menu_page_url($this->plugin_name . '-clear', false);
+            $clear_link_complete = '<a href="' . $clear_link . '">' . __('Clear Varnish', 'king-host-varnish-cleaner') . '</a>';
+
+            array_unshift($links, $clear_link_complete);
+            return $links;
+        }
     }
 }

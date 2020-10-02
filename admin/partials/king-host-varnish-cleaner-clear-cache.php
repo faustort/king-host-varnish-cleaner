@@ -1,54 +1,51 @@
 <?php
 
 /**
- * Provide a admin area view for the plugin
- *
- * This file is used to markup the admin-facing aspects of the plugin.
- *
- * @link       https://www.nw2web.com.br
  * @since      1.0.0
  *
  * @package    King_Host_Varnish_Cleaner
  * @subpackage King_Host_Varnish_Cleaner/admin/partials
  */
-?>
-<!-- This file should primarily consist of HTML with a little bit of PHP. -->
-<div class="wrap">
-    <h2><?php _e('Clear cache', 'king-host-varnish-cleaner'); ?></h2>
-    
-    <?php 
-    
-    echo $king_host_api_key = get_option('settings_page_king_host_api_key');
-    
-    /**
-     * Thanks to @mymotherland 
-     * Get from here: https://stackoverflow.com/questions/6516902/how-to-get-response-using-curl-in-php
-     */
-    $response = get_web_page('https://painel.kinghost.com.br/conector/varnish.php?acao=purge_cache&hash='.$king_host_api_key.'&uri=/*');
-    $resArr = array();
-    $resArr = json_decode($response);
-    echo "<pre>";
-    print_r($resArr);
-    echo "</pre>";
 
-    function get_web_page($url) {
-        $options = array(
-            CURLOPT_RETURNTRANSFER => true,   // return web page
-            CURLOPT_HEADER         => false,  // don't return headers
-            CURLOPT_FOLLOWLOCATION => true,   // follow redirects
-            CURLOPT_MAXREDIRS      => 10,     // stop after 10 redirects
-            CURLOPT_ENCODING       => "",     // handle compressed
-            CURLOPT_USERAGENT      => "test", // name of client
-            CURLOPT_AUTOREFERER    => true,   // set referrer on redirect
-            CURLOPT_CONNECTTIMEOUT => 120,    // time-out on connect
-            CURLOPT_TIMEOUT        => 120,    // time-out on response
-        ); 
-        $ch = curl_init($url);
-        curl_setopt_array($ch, $options);
-        $content  = curl_exec($ch);
-        curl_close($ch);
-        return $content;
+// Get King Host base URL 
+$url_request = $this->king_host_url_api;
+
+// Get the API key
+$king_host_varnish_api_key = get_option('king_host_varnish_api_key');
+
+// Get the path do clear (future implement)
+$uri = $this->get_path_to_clean();
+?>
+<div class="wrap">
+    <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
+    <h2><?php
+        _e('API Key', 'king-host-varnish-cleaner');
+        echo " : " . $king_host_varnish_api_key;
+        ?></h2>
+    <?php
+
+    //$uri = "*";
+    $url_complete = $url_request . "?acao=purge_cache&hash=" . $king_host_varnish_api_key . "&uri=" . $uri;
+    $request = wp_remote_get($url_complete);
+    if (is_wp_error($request)) {
+        _e('Wordpress is having difficult to access the K.H. Server', 'king-host-varnish-cleaner');
     }
-    
+    $body = wp_remote_retrieve_body($request);
+    $data = json_decode($body);
+
+    if (!empty($data)) {
+        if (isset($data->status) && $data->status == "Erro") {
+            _e("Something went wrong with server, this is the message returned:", 'king-host-varnish-cleaner');
+            echo "<strong> " . $data->mensagem . "</strong>";
+        } else {
+            echo '<ul>';
+            foreach ($data as $info) {
+                echo '<li>';
+                echo $info->dominio . " : " . $info->status;
+                echo '</li>';
+            }
+            echo '</ul>';
+        }
+    }
     ?>
 </div>

@@ -19,7 +19,6 @@ I'm not related to King Host employees, I've just done that plugin to make my wo
 
 Special thanks to:
 https://wppb.me/ (for the amazing boilerplate job)
-https://github.com/wplauncher/settings-page (for making create menu easier) 
 
 Use "a volonté": https://github.com/zarausto/king-host-varnish-cleaner
 
@@ -46,6 +45,11 @@ You need to specify your API Key in  Settings -> King Host Varnish, find your AP
 * Brazillian Portuguese: disponível
 
 == Changelog ==
+= 1.0.2 =
+* Translations Improvements 
+* Code Improvements on register fields
+* Adaptations made to respect Wordpress policy
+
 = 1.0.1 =
 * Little Improvements 
 

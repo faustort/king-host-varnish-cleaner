@@ -149,9 +149,11 @@ class King_Host_Varnish_Cleaner
 
 		$plugin_admin = new King_Host_Varnish_Cleaner_Admin($this->get_plugin_name(), $this->get_version());
 
-		$this->loader->add_action('admin_bar_menu', $plugin_admin, 'add_toolbar_items', 80);
-		$this->loader->add_action('admin_menu', $plugin_admin, 'addPluginAdminMenu');
-		$this->loader->add_action('admin_init', $plugin_admin, 'registerAndBuildFields');
+		$this->loader->add_action('admin_init', $plugin_admin, 'khvc_register_settings');
+		$this->loader->add_action('admin_menu', $plugin_admin, 'khvc_register_admin_menu');
+
+		$plugin = KING_HOST_VARNISH_CLEANER_PLUGIN_BASE;
+		$this->loader->add_filter("plugin_action_links_$plugin", $plugin_admin, 'khvc_create_plugin_action_link');
 	}
 
 
