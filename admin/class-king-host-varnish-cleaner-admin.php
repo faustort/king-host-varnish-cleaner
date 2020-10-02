@@ -69,7 +69,6 @@ class King_Host_Varnish_Cleaner_Admin
         $this->version = $version;
     }
 
-
     /**
      * Undocumented function
      *
@@ -79,7 +78,6 @@ class King_Host_Varnish_Cleaner_Admin
     {
         include(plugin_dir_path(__FILE__) . 'partials/king-host-varnish-cleaner-clear-cache.php');
     }
-
 
     /**
      * Return only the parameter as relative path needed for
@@ -101,7 +99,6 @@ class King_Host_Varnish_Cleaner_Admin
         $this->path_to_clear = $site_root . $path_relative;
         return  $this->path_to_clear;
     }
-
 
     /**
      * Undocumented function
@@ -199,7 +196,7 @@ class King_Host_Varnish_Cleaner_Admin
         add_options_page(
             __('Clear Varnish Cache', 'king-host-varnish-cleaner'),
             __('K.H. Clear Varnish.', 'king-host-varnish-cleaner'),
-            'manage_options',
+            'edit_posts',
             $this->plugin_name . '-clear',
             array($this, 'khvc_display_clear_varnish')
         );
@@ -207,6 +204,7 @@ class King_Host_Varnish_Cleaner_Admin
         // Fix call menu_page_url too soon
         add_action('admin_bar_menu', array($this, 'khvc_register_toolbar_item'), 80);
     }
+
     /**
      * Display the plugin settings page
      *
@@ -227,6 +225,7 @@ class King_Host_Varnish_Cleaner_Admin
         </div>
 <?php
     }
+
     /**
      * Create plugin action link to settings page
      *
