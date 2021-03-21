@@ -189,7 +189,7 @@ class King_Host_Varnish_Cleaner_Admin
         add_options_page(
             __('King Host Varnish Settings', 'king-host-varnish-cleaner'),
             __('K.H. Varnish config.', 'king-host-varnish-cleaner'),
-            'manage_options',
+            'edit_posts',
             $this->plugin_name . '-settings',
             array($this, 'khvc_display_settings_html')
         );
