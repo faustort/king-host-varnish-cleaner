@@ -186,19 +186,21 @@ class King_Host_Varnish_Cleaner_Admin
      */
     public function khvc_register_admin_menu()
     {
-        add_options_page(
-            __('King Host Varnish Settings', 'king-host-varnish-cleaner'),
-            __('K.H. Varnish config.', 'king-host-varnish-cleaner'),
-            'edit_posts',
-            $this->plugin_name . '-settings',
-            array($this, 'khvc_display_settings_html')
-        );
-        add_options_page(
+		add_submenu_page(
+			'tools.php',
             __('Clear Varnish Cache', 'king-host-varnish-cleaner'),
             __('K.H. Clear Varnish.', 'king-host-varnish-cleaner'),
-            'edit_posts',
-            $this->plugin_name . '-clear',
-            array($this, 'khvc_display_clear_varnish')
+			'edit_pages',
+			$this->plugin_name . '-clear',
+			 array($this, 'khvc_display_clear_varnish')
+		);
+
+		add_options_page(
+            __('King Host Varnish Settings', 'king-host-varnish-cleaner'),
+            __('K.H. Varnish config.', 'king-host-varnish-cleaner'),
+            'manage_options',
+            $this->plugin_name . '-settings',
+            array($this, 'khvc_display_settings_html')
         );
 
         // Fix call menu_page_url too soon
